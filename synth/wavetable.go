@@ -4,7 +4,7 @@ import (
 	"math"
 )
 
-type Wavetable [SAMPLE_RATE]float32
+type Wavetable [SAMPLE_RATE]float64
 
 func NewWaveTable () Wavetable {
 	var table Wavetable
@@ -15,6 +15,6 @@ func NewWaveTable () Wavetable {
 }
 
 
-func sinePoint (n int) float32 {
-	return float32(math.Sin(float64(n) * 2.0 * math.Pi / float64(SAMPLE_RATE)))
+func sinePoint (n int) float64 {
+	return math.Sin(float64(n) * 2.0 * math.Pi / float64(SAMPLE_RATE))
 }

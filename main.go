@@ -2,36 +2,31 @@ package main
 
 import (
 	"fmt"
-	"math"
-
-	"github.com/gordonklaus/portaudio"
-
 	"github.com/mishazawa/Dakota_lip_Suffer/synth"
+	"github.com/mishazawa/Dakota_lip_Suffer/misc"
 )
 
 func main() {
-	err := portaudio.Initialize()
-	if err != nil {
-		panic(err)
-	}
-
-	defer portaudio.Terminate()
-
-	osc := synth.NewOsc()
-	stream, err := portaudio.OpenDefaultStream(0, 2, synth.SAMPLE_RATE, 0, osc.ProcessAudio)
+	err := synth.Init()
 
 	if err != nil {
 		panic(err)
 	}
 
-	defer stream.Close()
+	defer synth.Terminate()
 
-	if err := stream.Start(); err != nil {
+	out, err := synth.NewOutput()
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer out.Close()
+
+	if err := out.Start(); err != nil {
 		panic(err)
 	}
 
 	fmt.Println("Dakota lip Suffer")
-	for {
-
-	}
+	misc.Song(out)
 }
