@@ -1,4 +1,4 @@
-github.com/gordonklaus/portaudio v0.0.0-20180817120803-00e7307ccd93 h1:TSG+DyZBnazM22ZHyHLeUkzM34ClkJRjIWHTq4btvek=
-github.com/gordonklaus/portaudio v0.0.0-20180817120803-00e7307ccd93/go.mod h1:HfYnZi/ARQKG0dwH5HNDmPCHdLiFiBf+SI7DbhW7et4=
+github.com/gordonklaus/portaudio v0.0.0-20200911161147-bb74aa485641 h1:B7ADnac3Yy6Vtcp2mstnsjUtarYcjy4AL0R6eNEhZAk=
+github.com/gordonklaus/portaudio v0.0.0-20200911161147-bb74aa485641/go.mod h1:HfYnZi/ARQKG0dwH5HNDmPCHdLiFiBf+SI7DbhW7et4=
 github.com/mishazawa/heartache v0.0.0-20200910165941-7f835cd38b1b h1:5jkyw7tTp0MxyXUUokK8X62TZwlmVkpEQ0Cy9m4FMfI=
 github.com/mishazawa/heartache v0.0.0-20200910165941-7f835cd38b1b/go.mod h1:b8Vd/Z6qoeKZe8bKAa9LIpyyxwJDHZfGGH8zMw7Y/9I=

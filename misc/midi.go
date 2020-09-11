@@ -3,6 +3,7 @@ package misc
 import (
 	"fmt"
 	"time"
+	"sync"
 	"github.com/mishazawa/heartache/parser"
 	"github.com/mishazawa/heartache/parser/events"
 )
@@ -10,27 +11,34 @@ import (
 type EventCallback func(*SynthTrack)
 
 type SynthTrack struct {
-	Tempo  int
-	Events map[int][]EventCallback
+	Tempo       int
+	Events      map[int][]EventCallback
+	Destination chan<- *events.MidiEvent
+	Eot         chan<- bool
+	mux					sync.Mutex
 }
 
 func (t *SynthTrack) SetTempo (bpm int) {
+	t.mux.Lock()
 	t.Tempo = 60000 / bpm
+	t.mux.Unlock()
 	fmt.Printf("SetTempo %d \n", t.Tempo)
 }
 
 func (t *SynthTrack) EmitEnd () {
-	fmt.Printf("emit end\n")
+	t.Eot <- true
 }
 
 func (t *SynthTrack) EmitMidiEvent (ev *events.MidiEvent) {
-	fmt.Printf("emit midi\n")
+	t.Destination <- ev
 }
 
-func newSynthTrack () *SynthTrack {
+func newSynthTrack (dest chan<- *events.MidiEvent, eot chan<- bool) *SynthTrack {
 	return &SynthTrack{
 		Tempo:  500, // ms
 		Events: make(map[int][]EventCallback),
+		Destination: dest,
+		Eot: eot,
 	}
 }
 
@@ -39,7 +47,7 @@ type MidiSong struct {
 	Tracks  []*SynthTrack
 }
 
-func parseSong () (*MidiSong, error) {
+func parseSong (dest chan<- *events.MidiEvent, eot chan<- bool) (*MidiSong, error) {
 	song, err := parser.ParseFile("./test_data/A Sacred Lot.mid")
 	if err != nil {
 		return nil, err
@@ -48,7 +56,7 @@ func parseSong () (*MidiSong, error) {
 	midiSong := &MidiSong{int(song.TimeDiv), make([]*SynthTrack, 0)}
 
 	for _, track := range song.Tracks {
-		st := newSynthTrack()
+		st := newSynthTrack(dest, eot)
 		eventTime := 0
 
 		for _, event := range track.Events {

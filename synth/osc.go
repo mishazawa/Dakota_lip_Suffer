@@ -11,11 +11,11 @@ type Oscillator struct {
 	freq  int
 }
 
-func NewOsc (freq int) Oscillator {
+func NewOsc () Oscillator {
 	return Oscillator {
 		table: NewWaveTable(),
 		phase: 0,
-		freq:  freq,
+		freq:  0,
 	}
 }
 
@@ -25,4 +25,8 @@ func (osc *Oscillator) NextPhase () {
 
 func (osc *Oscillator) GetSample () float64 {
 	return osc.table[osc.phase]
+}
+
+func (osc *Oscillator) SetFreq (freq int) {
+	osc.freq = freq
 }

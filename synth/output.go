@@ -6,13 +6,16 @@ import (
 
 type Output struct {
 	*portaudio.Stream
-	Mixer
+	*Mixer
 }
 
-func NewOutput () (*Output, error) {
+func NewOutput (mixer *Mixer) (*Output, error) {
 	var err error
 
-	output := Output { nil, NewMixer() }
+	output := Output {
+		Stream: nil,
+		Mixer: mixer,
+	}
 	output.Stream, err = portaudio.OpenDefaultStream(0, 2, SAMPLE_RATE, 0, output.Mixer.ProcessAudio)
 
 	return &output, err

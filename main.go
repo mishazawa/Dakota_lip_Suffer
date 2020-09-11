@@ -15,18 +15,6 @@ func main() {
 
 	defer synth.Terminate()
 
-	out, err := synth.NewOutput()
-
-	if err != nil {
-		panic(err)
-	}
-
-	defer out.Close()
-
-	if err := out.Start(); err != nil {
-		panic(err)
-	}
-
 	fmt.Println("Dakota lip Suffer")
-	misc.Song(out)
+	misc.Song()
 }
